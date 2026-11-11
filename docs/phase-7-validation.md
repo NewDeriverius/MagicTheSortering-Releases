@@ -1,12 +1,12 @@
 # Fase 7 — documentación y distribución conjunta
 
-Estado: **parcial; Web validado localmente y CI Web relanzado; distribución conjunta aún pendiente**. Código y documentación preparados; sin merges, releases públicas, tags nuevos ni despliegues. No se inicia la fase 8.
+Estado: **Web validado localmente y CI de la PR verde en las tres plataformas; distribución conjunta aún pendiente**. Código y documentación preparados; sin merges, releases públicas, tags nuevos ni despliegues. No se inicia la fase 8.
 
 ## Ramas y PR
 
 Se mantienen las ramas existentes integration/consolidation de Web, SharedUI y Companion. Releases usa la nueva integration/joint-distribution.
 
-- Web: 7ed2e6fde771f155679dc45499a1ec42acce8d5b — [PR #11](https://github.com/NewDeriverius/MagicTheSortering/pull/11).
+- Web: b74930da48493cdc5e1068b90e6a85ac2f451304 — [PR #11](https://github.com/NewDeriverius/MagicTheSortering/pull/11).
 - SharedUI: 875dc1d87c23fb771a43971b25bb874be94636a0 — [PR #8](https://github.com/NewDeriverius/MagicTheSortering-SharedUI/pull/8).
 - Companion: c64c83aa931d87e21ed51c951461dfc567e82287 — [PR #8](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/pull/8).
 - Releases: [PR #1](https://github.com/NewDeriverius/MagicTheSortering-Releases/pull/1), con el plan actualizado y este informe.
@@ -108,3 +108,13 @@ No se reprodujo el fallo QR remoto; no se ha eliminado el test ni ampliado su ti
 Commit Web final 7ed2e6fde771f155679dc45499a1ec42acce8d5b. Se publicó con [skip ci] y se lanzó **una sola ejecución manual** de [CI Web 43036271985](https://github.com/NewDeriverius/MagicTheSortering/actions/runs/43036271985). No se relanzaron SharedUI, Companion ni el coordinador conjunto. El resultado remoto no se declara aprobado antes de terminar; su revisión queda a cargo del usuario.
 
 El plan se actualiza a ese commit Web. La validación del artefacto conjunto con APK firmada sigue pendiente: los resultados locales de Web no la sustituyen.
+
+## CI real de la PR Web en verde
+
+Resultado final: [run 43053473289](https://github.com/NewDeriverius/MagicTheSortering/actions/runs/43053473289), evento pull_request, commit b74930da48493cdc5e1068b90e6a85ac2f451304. Los tres checks de la PR #11 están en SUCCESS: Windows x64, Linux x64 y Linux ARM64. Se verificó también la conclusión success del workflow completo y el SHA asociado.
+
+Los runners no resolvían ninguno de los dos dominios Ubuntu probados, incluso desde Windows. La corrección final consume desde el checkout el paquete público fonts-liberation 1:2.1.5-3 de arquitectura all (1,6 MB), íntegro y con sus licencias, comprobado contra el índice oficial y protegido por SHA-256 antes de instalar. No requiere descargas, preparadores ni artefactos Actions para las fuentes. No modifica DNS, mirrors, TLS, referencias visuales ni el producto publicado.
+
+Las once regresiones Linux sin red pasan. ARM64 verificó el hash real y pasó dominio 40/40, componentes 72/72, Playwright 64/64 e integración 701/701 sin skips. Los otros dos checks completaron todos sus gates. Los commits que corrigen esta CI activaron los checks de pull_request sin [skip ci].
+
+No se fusionó la PR ni se publicaron releases. El plan queda alineado con el Web probado. Este resultado no sustituye el dry-run conjunto con los cinco paquetes y la APK firmada, todavía pendiente.
