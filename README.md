@@ -106,4 +106,4 @@ El coordinador privado compila y valida ambos productos antes de agregar archivo
 
 Las PR y releases no se fusionan ni publican automáticamente durante la preparación de esta fase.
 
-[Resultado de fase 7 y bloqueo del dry-run](docs/phase-7-validation.md) · [Manifiesto de ejemplo sintético](examples/distribution-manifest.example.json). El ejemplo no representa binarios instalables ni una release publicada.
+[Auditoría final de fase 8 y capturas](docs/phase-8-audit.md) · [Historial de fase 7](docs/phase-7-validation.md) · [Manifiesto de ejemplo sintético](examples/distribution-manifest.example.json). El ejemplo no representa binarios instalables ni una release publicada.

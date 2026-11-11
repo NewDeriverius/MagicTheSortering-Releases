@@ -1,3 +1,5 @@
+> El estado final, las correcciones posteriores y la evidencia conjunta están en [la auditoría de fase 8](phase-8-audit.md). Este documento conserva el historial de fase 7.
+
 # Fase 7 — documentación y distribución conjunta
 
 Estado: **Web validado localmente y CI de la PR verde en las tres plataformas; distribución conjunta aún pendiente**. Código y documentación preparados; sin merges, releases públicas, tags nuevos ni despliegues. No se inicia la fase 8.
