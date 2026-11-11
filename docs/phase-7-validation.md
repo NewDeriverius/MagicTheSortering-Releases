@@ -59,6 +59,16 @@ gh workflow run release.yml --repo NewDeriverius/MagicTheSortering-Companion-App
 
 Si las ramas han avanzado, actualizar primero el plan para que Companion coincida con el commit seleccionado. No reintentar el run antiguo para validar los commits finales.
 
+## Reintento con runners disponibles
+
+El [run 43013466241](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/actions/runs/43013466241), con plan 36408b05b3c9a00b5f65a77491732c4e95137e30 y los commits finales, sí inició el runner. Pasaron la validación del dispatch, el checkout de Companion, la lectura del plan inmutable y su validación.
+
+Falló Checkout pinned private Web source: el token disponible para leer Web recibió HTTP 403. Las compilaciones, firma, agregación y subida no llegaron a ejecutarse; publish se omitió.
+
+El bloqueo de runners está superado. Falta configurar en Companion el secreto DISTRIBUTION_SOURCE_READ_TOKEN con Contents: Read sobre Web y SharedUI. No requiere escritura ni acceso a Releases. El secreto actual usado como fallback no permite descargar Web; el mensaje de GitHub no implica que haga falta conceder escritura.
+
+Se ha solicitado esa configuración al titular sin pedir el valor del token. No se modifican credenciales locales ni se copian claves o tokens de otros ámbitos para evitar el control de acceso.
+
 ## Manifiesto de ejemplo
 
 [examples/distribution-manifest.example.json](../examples/distribution-manifest.example.json) se genera con New-Distribution.ps1 desde las mismas fixtures de las 16 regresiones. **Es sintético:** versiones 1.2.3-beta / 0.8.1, commits a/b/c/e repetidos y huella d repetida; los hashes corresponden a textos de prueba, no a paquetes instalables.
@@ -71,7 +81,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-DistributionCon
 
 ## Pendiente antes de aprobar una entrega
 
-Restablecer disponibilidad de runners y completar el dry-run con cinco paquetes reales, firma persistente y artefacto agregado descargable; verificar lectura de Web/SharedUI con el token configurado y cuota de artefactos. Su retención es de un día y el fallo de subida bloquea publicación. No se han cambiado secretos ni facturación.
+Configurar la lectura privada de Web/SharedUI y completar el dry-run con cinco paquetes reales, firma persistente y artefacto agregado descargable; verificar lectura de Web/SharedUI con el token configurado y cuota de artefactos. Su retención es de un día y el fallo de subida bloquea publicación. No se han cambiado secretos ni facturación.
 
 La fase 8 debe validar ejecución nativa Linux x64/ARM64, experiencia integral, compatibilidad y actualización Android con APK de producción conservando datos. El build cruzado y las pruebas físicas Debug anteriores no acreditan esa actualización.
 
