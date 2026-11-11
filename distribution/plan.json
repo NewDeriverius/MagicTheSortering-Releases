@@ -3,15 +3,15 @@
     "distributionVersion":  "0.9.9-beta",
     "web":  {
                 "version":  "0.9.9-beta",
-                "commit":  "7941d8fb04a43579b7e5fa606f8f9faf9c506512"
+                "commit":  "826fc48bf9f1ca7c285598be944cfbe03b0b161b"
             },
     "companion":  {
                       "version":  "0.9.9-beta",
-                      "commit":  "098321bdac8d2e7d1309878a93f905efee0999cf",
+                      "commit":  "3e99fff2349c673f61b2cb44fcf00e5ffec05cc9",
                       "androidVersionCode":  9010
                   },
     "sharedUI":  {
-                     "commit":  "56cfef11d1a28fde27a2ddfddc96340675b92d33"
+                     "commit":  "6bc1f472fa1701853c248aa9578c302357162683"
                  },
     "protocol":  {
                      "minimum":  1,
