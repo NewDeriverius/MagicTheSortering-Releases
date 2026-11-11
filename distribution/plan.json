@@ -7,7 +7,7 @@
             },
     "companion":  {
                       "version":  "0.9.9-beta",
-                      "commit":  "c64c83aa931d87e21ed51c951461dfc567e82287",
+                      "commit":  "e4202fa58a1e32c185fd945da116de090736c699",
                       "androidVersionCode":  9010
                   },
     "sharedUI":  {
