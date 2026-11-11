@@ -83,3 +83,7 @@ La concurrencia joint-public-distribution serializa todos los runs, sin cancelac
 - Los drafts ajenos o assets inesperados se rechazan; no se borran automáticamente.
 
 SHA-256 acredita integridad frente al manifiesto descargado, no sustituye una firma ni un canal de confianza. Android conserva su certificado; Windows todavía no dispone de Authenticode. El manifiesto incluye huella pública de firma APK, versiones, commits, SharedUI, protocolo, checks ejecutados y hashes de los cinco paquetes y notas.
+
+## Evidencia de preparación
+
+[Resultados y limitación de facturación](phase-7-validation.md). El dry-run remoto no inició el runner; el ejemplo de manifiesto es sintético y no acredita una distribución real. Las acciones externas de los workflows nuevos están fijadas por SHA completo.

@@ -105,3 +105,5 @@ Si falla la conexión: revisa servicio, /health, IP, puertos, firewall, certific
 El coordinador privado compila y valida ambos productos antes de agregar archivos. El dry-run guarda un artefacto privado de Actions y no escribe releases ni tags públicos. Solo un paso explícito de publicación futura puede convertir un draft completo y verificado en release pública. Los publicadores independientes se retiran para evitar carreras y sobrescrituras.
 
 Las PR y releases no se fusionan ni publican automáticamente durante la preparación de esta fase.
+
+[Resultado de fase 7 y bloqueo del dry-run](docs/phase-7-validation.md) · [Manifiesto de ejemplo sintético](examples/distribution-manifest.example.json). El ejemplo no representa binarios instalables ni una release publicada.
