@@ -1,12 +1,12 @@
 # Fase 7 — documentación y distribución conjunta
 
-Estado: **parcial; dry-run pendiente de una regresión Playwright**. Código y documentación preparados; sin merges, releases públicas, tags nuevos ni despliegues. No se inicia la fase 8.
+Estado: **parcial; Web validado localmente y CI Web relanzado; distribución conjunta aún pendiente**. Código y documentación preparados; sin merges, releases públicas, tags nuevos ni despliegues. No se inicia la fase 8.
 
 ## Ramas y PR
 
 Se mantienen las ramas existentes integration/consolidation de Web, SharedUI y Companion. Releases usa la nueva integration/joint-distribution.
 
-- Web: ee757243ca34ff5ccc38e1ebd7a55d952b6eb6f8 — [PR #11](https://github.com/NewDeriverius/MagicTheSortering/pull/11).
+- Web: 7ed2e6fde771f155679dc45499a1ec42acce8d5b — [PR #11](https://github.com/NewDeriverius/MagicTheSortering/pull/11).
 - SharedUI: 875dc1d87c23fb771a43971b25bb874be94636a0 — [PR #8](https://github.com/NewDeriverius/MagicTheSortering-SharedUI/pull/8).
 - Companion: c64c83aa931d87e21ed51c951461dfc567e82287 — [PR #8](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/pull/8).
 - Releases: [PR #1](https://github.com/NewDeriverius/MagicTheSortering-Releases/pull/1), con el plan actualizado y este informe.
@@ -98,3 +98,13 @@ Resolver la regresión Playwright de QR y completar el dry-run con cinco paquete
 La fase 8 debe validar ejecución nativa Linux x64/ARM64, experiencia integral, compatibilidad y actualización Android con APK de producción conservando datos. El build cruzado y las pruebas físicas Debug anteriores no acreditan esa actualización.
 
 El plan actual usa v0.9.9-beta, que ya existe públicamente: sirve para dry-run y **no debe publicarse encima**. Preparar una versión Web nueva y un versionCode Android creciente antes de una futura publicación autorizada. El código impide reemplazar la release antigua si difieren assets, notas o procedencia.
+
+## Validación completa local y CI Web autorizado
+
+El usuario pidió terminar la validación y relanzar únicamente Web. Se compilaron la solución y una publicación Release autocontenida win-x64, sin overrides de SharedUI, y pasaron todas las suites Web: dominio 40/40, componentes 72/72, integración 701/701 y Playwright 64/64 (**877/877**). Playwright utilizó la publicación Release y bases aisladas. Otras tres series de los cuatro tamaños QR pasaron 12/12.
+
+No se reprodujo el fallo QR remoto; no se ha eliminado el test ni ampliado su timeout. El fixture permite opcionalmente fijar en Chromium el certificado de la CA temporal para validar localmente sin alterar el trust store del equipo; el valor por defecto de CI se conserva.
+
+Commit Web final 7ed2e6fde771f155679dc45499a1ec42acce8d5b. Se publicó con [skip ci] y se lanzó **una sola ejecución manual** de [CI Web 43036271985](https://github.com/NewDeriverius/MagicTheSortering/actions/runs/43036271985). No se relanzaron SharedUI, Companion ni el coordinador conjunto. El resultado remoto no se declara aprobado antes de terminar; su revisión queda a cargo del usuario.
+
+El plan se actualiza a ese commit Web. La validación del artefacto conjunto con APK firmada sigue pendiente: los resultados locales de Web no la sustituyen.
