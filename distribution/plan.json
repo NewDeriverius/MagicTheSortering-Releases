@@ -3,11 +3,11 @@
     "distributionVersion":  "0.9.9-beta",
     "web":  {
                 "version":  "0.9.9-beta",
-                "commit":  "5e707b776bd2f2d0d801bf0b7d491dbeeacf906d"
+                "commit":  "5644269c3e7a80abba9809d0cb21c2c6fca68a12"
             },
     "companion":  {
                       "version":  "0.9.9-beta",
-                      "commit":  "52e234ce76e24ef8fa97a3ab03c66a77a51b66cb",
+                      "commit":  "c64c83aa931d87e21ed51c951461dfc567e82287",
                       "androidVersionCode":  9010
                   },
     "sharedUI":  {
