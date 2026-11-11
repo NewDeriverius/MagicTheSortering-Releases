@@ -1,14 +1,14 @@
 # Fase 7 — documentación y distribución conjunta
 
-Estado: **parcial por bloqueo externo del dry-run remoto**. Código y documentación preparados; sin merges, releases públicas, tags nuevos ni despliegues. No se inicia la fase 8.
+Estado: **parcial; dry-run pendiente de una regresión Playwright**. Código y documentación preparados; sin merges, releases públicas, tags nuevos ni despliegues. No se inicia la fase 8.
 
 ## Ramas y PR
 
 Se mantienen las ramas existentes integration/consolidation de Web, SharedUI y Companion. Releases usa la nueva integration/joint-distribution.
 
-- Web: 5e707b776bd2f2d0d801bf0b7d491dbeeacf906d — [PR #11](https://github.com/NewDeriverius/MagicTheSortering/pull/11).
+- Web: ee757243ca34ff5ccc38e1ebd7a55d952b6eb6f8 — [PR #11](https://github.com/NewDeriverius/MagicTheSortering/pull/11).
 - SharedUI: 875dc1d87c23fb771a43971b25bb874be94636a0 — [PR #8](https://github.com/NewDeriverius/MagicTheSortering-SharedUI/pull/8).
-- Companion: 52e234ce76e24ef8fa97a3ab03c66a77a51b66cb — [PR #8](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/pull/8).
+- Companion: c64c83aa931d87e21ed51c951461dfc567e82287 — [PR #8](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/pull/8).
 - Releases: [PR #1](https://github.com/NewDeriverius/MagicTheSortering-Releases/pull/1), con el plan actualizado y este informe.
 
 Los dos consumidores fijan SharedUI 875dc1d por gitlink publicado; no dependen de overrides locales. Todos los main se conservan.
@@ -69,6 +69,18 @@ El bloqueo de runners está superado. Falta configurar en Companion el secreto D
 
 Se ha solicitado esa configuración al titular sin pedir el valor del token. No se modifican credenciales locales ni se copian claves o tokens de otros ámbitos para evitar el control de acceso.
 
+## Estado actual tras habilitar credenciales
+
+Los runners y la lectura privada ya funcionan. El segundo intento del run 43013466241 validó los contratos del agregador y pasó 40 pruebas de dominio y 72 de componentes. Falló una auditoría histórica del escáner porque el checkout era superficial. Se corrigió con fetch-depth: 0 en ambos workflows Web y un precondicionante de historial completo en Build-ValidatedRelease.ps1. No se eliminaron tests.
+
+El [run 43016081372](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/actions/runs/43016081372), plan 39a7197c973057c67762939c7e1422957b64049d, pasó dominio **40/40**, componentes **72/72** y Playwright **63/64**. La auditoría histórica ya pasó; falló Sync_is_styled_inside_Server_and_survives_hydration_and_tab_changes a 1280×720, esperando el QR de invitación (SyncBaselinePlaywrightTests.cs:22). Su causa no está confirmada. Android, empaquetado y agregación no llegaron a ejecutarse. No existe artefacto conjunto real que descargar.
+
+En otra ejecución Web comunicada por el usuario, integración terminó 698/699: PackagingDefinitionTests seguía exigiendo comandos inline y el antiguo publicador con token y --clobber. Se actualizó para verificar la delegación al script, conservación/orden de gates, subida obligatoria y ausencia de publicación independiente.
+
+Validación local focalizada de esa corrección: **8/8 PackagingDefinitionTests**, Release con CI=true y UseLocalSharedUI=false. Commit Web ee757243ca34ff5ccc38e1ebd7a55d952b6eb6f8, publicado con [skip ci] para evitar ejecuciones adicionales tras la indicación de coste. No se afirma haber reejecutado los 699 tests ni haber resuelto el fallo Playwright.
+
+El plan actual fija esa revisión Web y Companion c64c83aa931d87e21ed51c951461dfc567e82287; no se relanza Actions. Próximo paso: investigar/reproducir localmente el fallo QR y acordar una única validación remota cuando proceda. Hasta entonces, la fase 7 no se considera validada de extremo a extremo.
+
 ## Manifiesto de ejemplo
 
 [examples/distribution-manifest.example.json](../examples/distribution-manifest.example.json) se genera con New-Distribution.ps1 desde las mismas fixtures de las 16 regresiones. **Es sintético:** versiones 1.2.3-beta / 0.8.1, commits a/b/c/e repetidos y huella d repetida; los hashes corresponden a textos de prueba, no a paquetes instalables.
@@ -81,7 +93,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Test-DistributionCon
 
 ## Pendiente antes de aprobar una entrega
 
-Configurar la lectura privada de Web/SharedUI y completar el dry-run con cinco paquetes reales, firma persistente y artefacto agregado descargable; verificar lectura de Web/SharedUI con el token configurado y cuota de artefactos. Su retención es de un día y el fallo de subida bloquea publicación. No se han cambiado secretos ni facturación.
+Resolver la regresión Playwright de QR y completar el dry-run con cinco paquetes reales, firma persistente y artefacto agregado descargable; verificar lectura de Web/SharedUI con el token configurado y cuota de artefactos. Su retención es de un día y el fallo de subida bloquea publicación. No se han cambiado secretos ni facturación.
 
 La fase 8 debe validar ejecución nativa Linux x64/ARM64, experiencia integral, compatibilidad y actualización Android con APK de producción conservando datos. El build cruzado y las pruebas físicas Debug anteriores no acreditan esa actualización.
 

@@ -3,7 +3,7 @@
     "distributionVersion":  "0.9.9-beta",
     "web":  {
                 "version":  "0.9.9-beta",
-                "commit":  "5644269c3e7a80abba9809d0cb21c2c6fca68a12"
+                "commit":  "ee757243ca34ff5ccc38e1ebd7a55d952b6eb6f8"
             },
     "companion":  {
                       "version":  "0.9.9-beta",
