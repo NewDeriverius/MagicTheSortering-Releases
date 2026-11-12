@@ -2,7 +2,7 @@
 
 Repositorio público de paquetes de **Web** y **Companion Android**. No contiene las fuentes de los repositorios privados ni claves de firma.
 
-Descarga una [release publicada](https://github.com/NewDeriverius/MagicTheSortering-Releases/releases) y consulta su manifiesto: el código de una rama de integración puede ser más reciente que los binarios públicos. La distribución coordinada descrita aquí se prepara en integration/joint-distribution; no sustituye retroactivamente los metadatos de releases antiguas.
+Descarga una [release publicada](https://github.com/NewDeriverius/MagicTheSortering-Releases/releases) y consulta su manifiesto: el código de una rama de integración puede ser más reciente que los binarios públicos. El plan versionado en distribution/plan.json fija las revisiones de ambos productos. El coordinador publica el conjunto tras validar los dos; las releases antiguas conservan sus metadatos originales.
 
 ## Paquetes de una distribución conjunta
 
