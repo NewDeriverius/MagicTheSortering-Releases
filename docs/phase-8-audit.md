@@ -76,7 +76,7 @@ El intento [43091965130](https://github.com/NewDeriverius/MagicTheSortering-Comp
 
 Los cambios posteriores a 098321b no modifican código funcional Android ni el protocolo: solo tests, gitlinks, workflow y documentación.
 
-La validación final [43095384654](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/actions/runs/43095384654), con el plan 6172af3 y las tres revisiones finales publicadas, permanece en cola en GitHub y aún no tiene jobs asignados. No hay artefacto final descargable y no se declara completada la distribución de extremo a extremo. No se han iniciado ejecuciones duplicadas ni se ha atribuido la cola a facturación o a una incidencia sin evidencia.
+Actualización comprobada el 2026-11-12: la validación final [43095384654](https://github.com/NewDeriverius/MagicTheSortering-Companion-App/actions/runs/43095384654), con el plan 6172af3 y las tres revisiones finales publicadas, terminó con startup_failure el 2026-11-11 a las 20:34:34 UTC. GitHub no creó jobs ni check-runs y no expuso una causa adicional por API. No se ejecutaron pruebas ni se generó el artefacto final en ese intento; no se declara completada la distribución de extremo a extremo. Las CI finales de Web, SharedUI y Companion siguen en cola. El usuario indicó que no ve avisos y prefiere esperar: no se relanza ni se duplica ninguna ejecución, ni se atribuye el fallo a facturación o al código sin evidencia.
 
 La batería entre consumidores se incorpora al coordinador privado, que ya tiene ambos checkouts inmutables. CompanionRoot señala ese checkout verificado; SharedUI sigue fijado por gitlink. La CI independiente Web no obtiene acceso a Companion.
 
