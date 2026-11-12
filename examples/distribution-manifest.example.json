@@ -1,0 +1,70 @@
+{
+    "schemaVersion":  1,
+    "distributionVersion":  "1.2.3-beta",
+    "planCommit":  "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "web":  {
+                "version":  "1.2.3-beta",
+                "commit":  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "sharedUI":  "cccccccccccccccccccccccccccccccccccccccc"
+            },
+    "companion":  {
+                      "version":  "0.8.1",
+                      "commit":  "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                      "sharedUI":  "cccccccccccccccccccccccccccccccccccccccc",
+                      "androidVersionCode":  8002,
+                      "signingCertificateSha256":  "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+                  },
+    "protocol":  {
+                     "maximum":  1,
+                     "minimum":  1
+                 },
+    "validation":  {
+                       "web":  [
+                                   "synthetic-web"
+                               ],
+                       "companion":  [
+                                         "synthetic-android"
+                                     ],
+                       "sharedUI":  [
+                                        "synthetic-shared"
+                                    ]
+                   },
+    "artifacts":  [
+                      {
+                          "name":  "MagicTheSortering-Setup-1.2.3-beta-win-x64.exe",
+                          "bytes":  69,
+                          "sha256":  "9274d4d92273f51a2529bc02c99cbe1fe9dbc6920697d2222cec4db1d27d770c",
+                          "product":  "web"
+                      },
+                      {
+                          "name":  "MagicTheSortering-1.2.3-beta-win-x64-portable.zip",
+                          "bytes":  72,
+                          "sha256":  "c85a5279a89f53b3a9d132fb093dd33fa1f48d8f10b7a393a0327b1ef6571c93",
+                          "product":  "web"
+                      },
+                      {
+                          "name":  "MagicTheSortering-1.2.3-beta-linux-x64.tar.gz",
+                          "bytes":  68,
+                          "sha256":  "e25a8b0c2996cd0274034706f036bfd79dc3fc00054396ed66e67027c1e6cf33",
+                          "product":  "web"
+                      },
+                      {
+                          "name":  "MagicTheSortering-1.2.3-beta-linux-arm64.tar.gz",
+                          "bytes":  70,
+                          "sha256":  "23023795c521b9cc09d49bfbf32fb81482deb87da90b3067f6955adb0b9c0e87",
+                          "product":  "web"
+                      },
+                      {
+                          "name":  "MagicTheSortering-Companion-0.8.1.apk",
+                          "bytes":  60,
+                          "sha256":  "3ec50e5f9e8e13439c1aebe2acc6d63eb3a79f2d8e1d41fc77a23bc07b20b5de",
+                          "product":  "companion"
+                      },
+                      {
+                          "name":  "RELEASE-NOTES.md",
+                          "bytes":  24,
+                          "sha256":  "4d66f0a2e5aa76461c78fce4c70dc16615de557aeb204f6430348d73a59141a5",
+                          "product":  "distribution"
+                      }
+                  ]
+}

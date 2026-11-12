@@ -1,0 +1,20 @@
+{
+    "schemaVersion":  1,
+    "distributionVersion":  "0.9.9-beta",
+    "web":  {
+                "version":  "0.9.9-beta",
+                "commit":  "826fc48bf9f1ca7c285598be944cfbe03b0b161b"
+            },
+    "companion":  {
+                      "version":  "0.9.9-beta",
+                      "commit":  "3e99fff2349c673f61b2cb44fcf00e5ffec05cc9",
+                      "androidVersionCode":  9010
+                  },
+    "sharedUI":  {
+                     "commit":  "6bc1f472fa1701853c248aa9578c302357162683"
+                 },
+    "protocol":  {
+                     "minimum":  1,
+                     "maximum":  1
+                 }
+}
