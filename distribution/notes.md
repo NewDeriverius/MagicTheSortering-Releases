@@ -1,27 +1,32 @@
-# Magic The Sortering 0.9.10-beta
+# Magic The Sortering 1.0.0
 
-Distribución conjunta de Web y Companion Android. Incluye las mejoras y correcciones integradas en sus ramas principales.
+Distribución estable conjunta de Web y Companion Android, construida desde revisiones inmutables integradas en sus ramas principales.
 
-## OCR y sesiones
+## Staging y reconocimiento
 
-- Captura automática nativa Android con modos En mano y Soporte fijo, estabilización y corrección de perspectiva. Se conserva el botón de captura manual.
-- Calibración del marco y del soporte vacío, revisión de la fotografía mediante miniatura y aviso sonoro configurable.
-- Conservación de capturas pendientes al perder la conexión y reintentos con la misma identidad, evitando duplicados de transporte.
-- Las nuevas lecturas de la sesión muestran la carta recortada. El fotograma completo y las regiones de nombre/footer se conservan para el procesamiento; las fotografías históricas no se reescriben.
-- Corrección del falso token causado por fragmentos como «t 30» en texto de reglas. Las marcas inciertas no excluyen cartas normales y las ambigüedades siguen requiriendo revisión.
+- Selección de cualquier lectura de Staging, individual, por grupo o global, conservada al recargar mientras la entrada exista.
+- Edición masiva con campos explícitos y valores mixtos; los campos sin modificar conservan su valor. Las políticas de ubicación, capacidad, reservas y concurrencia siguen siendo obligatorias.
+- Retirada masiva con confirmación del número de entradas y copias, sin eliminar inventario ni catálogo. Se conserva la confirmación parcial.
+- Resolución de tokens mediante su clasificación y los alias de set impresos, incluidos MH2/TMH2 y MSH/TMSH. Las contradicciones y el idioma físico no se adivinan.
+- Una candidata válida única se presenta correctamente; las ambigüedades reales continúan requiriendo elección.
 
-## Colección y experiencia Android
+## Companion
 
-- Búsqueda multidioma compartida entre Web y Companion sin modificar el idioma físico de las copias.
-- Mazos adaptados a móvil con edición offline y navegación conservadas.
-- Almacenaje con vistas Lista/Grid, orden por ubicación, cantidades agrupadas y paginación superior e inferior.
-- Importación de inventario SQLite y backups portables .mtsbackup con validación y sustitución transaccional.
-- Tema persistente, identidad visual Android, estado de conexión SignalR y escáner QR modal.
+- Cámara nativa con zoom multitáctil, enfoque coordinado y uso del marco guardado en soporte fijo; captura de cartas con borde blanco y recorte conservado en el envío.
+- Acciones de cámara e icono específico para guardar el soporte vacío, miniatura de revisión y sonido configurable.
+- Retirada explícita de capturas pendientes incompatibles, con confirmación, sin enviarlas a otro emparejamiento o época.
+- Diagnósticos de errores HTTP y colas más claros, nombre de dispositivo coherente y paginación mejorada.
+- Importación Archidekt compartida y búsqueda de catálogo mediante infraestructura común de solo lectura.
+- Pestañas de Configuración protegidas frente a pulsaciones durante el prerenderizado.
 
-## Instalación y compatibilidad
+Se mantienen la búsqueda multidioma, Mazos offline, Almacenaje Lista/Grid con ubicación y cantidades, importación .db/.mtsbackup y sincronización reactiva Web ↔ Companion.
 
-Se distribuyen instalador y ZIP portable Windows x64, paquetes Linux x64 y ARM64, y APK Android firmada. El manifiesto indica versiones, commits, revisión compartida y huella de firma; SHA256SUMS.txt permite comprobar la integridad de los archivos.
+## Instalación y actualización
 
-Protocolo de sincronización directa v1 y backup portable v1. La APK usa un versionCode nuevo (9011). Actualiza conservando carpetas de datos y preferencias, sin desinstalar ni borrar almacenamiento; revisa el README de esta distribución para cada plataforma.
+Incluye instalador y ZIP portable Windows x64, paquetes Linux x64 y ARM64, APK Android firmada, notas, manifiesto y SHA256SUMS.txt. El manifiesto identifica commits, revisión SharedUI, versiones, protocolo y certificado de firma.
 
-Es una versión beta. El OCR requiere una carta completa y legible; en soporte fijo es importante ajustar el marco y guardar la referencia vacía. La validación física ampliada de cámaras, giros, iluminación y formatos de carta continúa. Una identificación ambigua conserva las candidatas para confirmación humana.
+Protocolo directo v1 y backup portable v1, sin nuevas migraciones en esta candidata. Android usa el ApplicationId habitual y versionCode 10000, superior al 9011 de la beta 0.9.10. Actualiza instalando encima únicamente con la misma firma; una compilación diagnóstica firmada con Android Debug no puede actualizarse directamente con la APK oficial. No desinstales ni borres datos para forzarlo.
+
+Antes de actualizar Web, conserva un backup .mtsbackup y una copia coherente de datos, configuración y PKI. Mantén esas rutas al sustituir binarios. No se incluyen datos personales, catálogo ni certificados de instancia en los paquetes.
+
+El OCR necesita una carta completa y legible. En soporte fijo, ajusta el marco y guarda el soporte vacío. Cámaras, iluminación y cartas concretas pueden requerir captura manual y revisión humana; no se promete identificación infalible. La validación automática no sustituye la comprobación física de cada dispositivo.
