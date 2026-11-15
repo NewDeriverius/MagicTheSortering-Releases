@@ -8,7 +8,7 @@ La coordinación permanece en Companion para mantener el keystore donde ya exist
 
 ## Plan reproducible
 
-En la rama integration/joint-distribution de Releases se guarda distribution/plan.json:
+Cada distribución prepara distribution/plan.json en su rama de trabajo de Releases:
 
 - schemaVersion: 1.
 - distributionVersion: versión SemVer del conjunto; coincide con Web para no alterar su comprobador de actualizaciones basado en tags.
@@ -40,10 +40,10 @@ Desde una consola con GitHub CLI autenticada (no pegues credenciales en el chat)
 
 ~~~powershell
 $planCommit='SHA_COMPLETO_DEL_COMMIT_PUBLICADO_EN_RELEASES'
-gh workflow run release.yml --repo NewDeriverius/MagicTheSortering-Companion-App --ref integration/consolidation -f plan_commit=$planCommit -f mode=dry-run
+gh workflow run release.yml --repo NewDeriverius/MagicTheSortering-Companion-App --ref main -f plan_commit=$planCommit -f mode=dry-run
 ~~~
 
-El archivo release.yml ya existe en main, permitiendo probar la definición de la rama sin fusionarla. [Requisitos de workflow_dispatch](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow).
+El archivo release.yml existe en main; la revisión seleccionada debe coincidir exactamente con la del plan. [Requisitos de workflow_dispatch](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow).
 
 La ejecución, en un único runner Windows limpio:
 
@@ -65,13 +65,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\RUTA\MagicTheSortering-Co
 
 Las pruebas de contrato usan archivos sintéticos aislados, no bases ni claves personales; distinguen la validación del agregador de una compilación real.
 
-## Publicación futura (no ejecutada en fase 7)
+## Publicación autorizada
 
-Solo con autorización de publicación se repite el mismo comando con mode=publish y un plan de versión nueva. La ejecución vuelve a construir y validar **ambos** productos; no publica un subconjunto de resultados de workflows independientes.
+Solo con autorización de publicación se utiliza mode=publish y un plan de versión nueva. La ejecución vuelve a construir y validar **ambos** productos; no publica un subconjunto de resultados de workflows independientes.
 
 El job publish depende del build completo y descarga el artefacto por su ID exacto, preservado al reintentar únicamente el job fallido. Verifica de nuevo hashes y procedencia. Crea primero una release **draft**, carga/verifica todos los bytes y solo después cambia a pública. El tag apunta al commit inmutable del plan en Releases. No publica repositorios fuente ni changelogs privados.
 
-La concurrencia joint-public-distribution serializa todos los runs, sin cancelación de uno en curso. No usar los publicadores antiguos de main durante la transición: ambas PR deben integrarse por el usuario antes de habilitar publicaciones conjuntas.
+La concurrencia joint-public-distribution serializa todos los runs, sin cancelación de uno en curso. No usar publicadores independientes para sustituir este conjunto: las revisiones de ambos productos deben estar integradas antes de publicar.
 
 ## Idempotencia y fallos
 
@@ -87,3 +87,13 @@ SHA-256 acredita integridad frente al manifiesto descargado, no sustituye una fi
 ## Evidencia de preparación
 
 [Resultados y limitación de facturación](phase-7-validation.md). El dry-run remoto no inició el runner; el ejemplo de manifiesto es sintético y no acredita una distribución real. Las acciones externas de los workflows nuevos están fijadas por SHA completo.
+
+## Publicar un dry-run ya validado sin recompilar
+
+`mode=publish-existing` recupera el artefacto inmutable de una ejecución terminada correctamente en main. Usa el mismo `plan_commit`, el ID de esa ejecución y el ID exacto de su artefacto; no acepta una revisión o plan diferente. Permite inspeccionar firma y hashes antes de hacer pública la distribución y reintentar solo la publicación sin pagar otra compilación.
+
+```powershell
+gh workflow run release.yml --repo NewDeriverius/MagicTheSortering-Companion-App --ref main -f mode=publish-existing -f plan_commit=SHA_COMPLETO_PLAN -f source_run_id=RUN_ID -f source_artifact_id=ARTIFACT_ID
+```
+
+No publica hasta verificar de nuevo la procedencia, todos los hashes y los assets; no mueve tags ni sobrescribe releases existentes.
