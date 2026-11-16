@@ -3,11 +3,11 @@
   "distributionVersion": "1.0.2",
   "web": {
     "version": "1.0.2",
-    "commit": "2256a8e882669f71ca207ae99c0e2de844bd861a"
+    "commit": "8598df6b1c350658441ac17e9f43fe889bfd9b31"
   },
   "companion": {
     "version": "1.0.2",
-    "commit": "e1789d415d11ba244dc0b746a959850e0b97b316",
+    "commit": "e6845062691870ce3172a0b3d9a72444b9c287aa",
     "androidVersionCode": 10002
   },
   "sharedUI": {
