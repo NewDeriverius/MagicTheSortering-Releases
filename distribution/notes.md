@@ -1,32 +1,25 @@
-# Magic The Sortering 1.0.0
+# Magic The Sortering 1.0.1
 
-Distribución estable conjunta de Web y Companion Android, construida desde revisiones inmutables integradas en sus ramas principales.
+Versión estable de Web y Companion Android. Protocolo de sincronización v1.
 
-## Staging y reconocimiento
+## Recuperación después de trasladar Web
 
-- Selección de cualquier lectura de Staging, individual, por grupo o global, conservada al recargar mientras la entrada exista.
-- Edición masiva con campos explícitos y valores mixtos; los campos sin modificar conservan su valor. Las políticas de ubicación, capacidad, reservas y concurrencia siguen siendo obligatorias.
-- Retirada masiva con confirmación del número de entradas y copias, sin eliminar inventario ni catálogo. Se conserva la confirmación parcial.
-- Resolución de tokens mediante su clasificación y los alias de set impresos, incluidos MH2/TMH2 y MSH/TMSH. Las contradicciones y el idioma físico no se adivinan.
-- Una candidata válida única se presenta correctamente; las ambigüedades reales continúan requiriendo elección.
+La colección mantiene una identidad distinta de la instalación Web y de la época de sincronización. Restaurar un backup portable en otro servidor permite emparejar Companion con una invitación legítima y revisar la recuperación. Los backups 1.0.0 se reconocen mediante identificadores persistentes.
 
-## Companion
+Antes de adoptar Web, Companion solicita confirmación y guarda una copia recuperable. Intenta integrar los cambios offline compatibles, evita repetir los ya aplicados y conserva en esa copia los incompatibles. Web prevalece en los conflictos y el resultado indica qué ocurrió con cada conjunto de cambios. Los reintentos sobreviven a interrupciones sin duplicar operaciones.
 
-- Cámara nativa con zoom multitáctil, enfoque coordinado y uso del marco guardado en soporte fijo; captura de cartas con borde blanco y recorte conservado en el envío.
-- Acciones de cámara e icono específico para guardar el soporte vacío, miniatura de revisión y sonido configurable.
-- Retirada explícita de capturas pendientes incompatibles, con confirmación, sin enviarlas a otro emparejamiento o época.
-- Diagnósticos de errores HTTP y colas más claros, nombre de dispositivo coherente y paginación mejorada.
-- Importación Archidekt compartida y búsqueda de catálogo mediante infraestructura común de solo lectura.
-- Pestañas de Configuración protegidas frente a pulsaciones durante el prerenderizado.
+## Actualizaciones
 
-Se mantienen la búsqueda multidioma, Mazos offline, Almacenaje Lista/Grid con ubicación y cantidades, importación .db/.mtsbackup y sincronización reactiva Web ↔ Companion.
+Web muestra versiones instalada/disponible, novedades y posposición. La sección Actualizaciones explica cómo actualizar Windows, Linux y Docker conservando datos, configuración y certificados.
 
-## Instalación y actualización
+Companion detecta versiones estables oficiales y permite descargar e iniciar su instalación nativa. Verifica SHA-256, paquete, versión y continuidad de firma. Android requiere autorización de instalaciones desde Companion y confirmación del instalador. La descarga puede cancelarse o reintentarse sin sustituir la aplicación.
 
-Incluye instalador y ZIP portable Windows x64, paquetes Linux x64 y ARM64, APK Android firmada, notas, manifiesto y SHA256SUMS.txt. El manifiesto identifica commits, revisión SharedUI, versiones, protocolo y certificado de firma.
+## Pasar desde 1.0.0
 
-Protocolo directo v1 y backup portable v1, sin nuevas migraciones en esta candidata. Android usa el ApplicationId habitual y versionCode 10000, superior al 9011 de la beta 0.9.10. Actualiza instalando encima únicamente con la misma firma; una compilación diagnóstica firmada con Android Debug no puede actualizarse directamente con la APK oficial. No desinstales ni borres datos para forzarlo.
+1. Exporta un backup antes de actualizar Web. En Windows ejecuta el Setup con las mismas rutas; en Linux/portable detén el servicio y conserva el directorio de datos. Docker conserva su volumen al reconstruir y recrear el contenedor.
+2. Companion 1.0.0 no incluye actualizador. Instala manualmente esta APK encima de la versión oficial anterior, con el mismo paquete y certificado. Las siguientes versiones podrán descubrirse desde Companion 1.0.1.
+3. Si has trasladado la colección, genera una nueva invitación desde Web 1.0.1 y revisa la recuperación en Companion. No borres datos ni desinstales para resolver un bloqueo de identidad.
 
-Antes de actualizar Web, conserva un backup .mtsbackup y una copia coherente de datos, configuración y PKI. Mantén esas rutas al sustituir binarios. No se incluyen datos personales, catálogo ni certificados de instancia en los paquetes.
+El flujo normal mantiene compatibilidad v1. La recuperación entre instalaciones requiere Web y Companion 1.0.1. Una APK firmada con una clave de pruebas distinta no puede actualizarse a la oficial conservando la instalación mediante un simple reemplazo; no desinstales para sortear el rechazo de firma.
 
-El OCR necesita una carta completa y legible. En soporte fijo, ajusta el marco y guarda el soporte vacío. Cámaras, iluminación y cartas concretas pueden requerir captura manual y revisión humana; no se promete identificación infalible. La validación automática no sustituye la comprobación física de cada dispositivo.
+Descarga todos los paquetes y sus hashes desde esta misma release. Las revisiones exactas y el certificado público de firma figuran en distribution-manifest.json.

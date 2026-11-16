@@ -107,3 +107,11 @@ El coordinador privado compila y valida ambos productos antes de agregar archivo
 La publicación 1.0.0 requiere fuentes integradas, CI correcto, firma persistente y verificación del conjunto completo antes de exponer la release. Las distribuciones anteriores permanecen inmutables.
 
 [Auditoría final de fase 8 y capturas](docs/phase-8-audit.md) · [Historial de fase 7](docs/phase-7-validation.md) · [Manifiesto de ejemplo sintético](examples/distribution-manifest.example.json). El ejemplo no representa binarios instalables ni una release publicada.
+
+## Recuperación y avisos desde 1.0.1
+
+Web y Companion 1.0.1 consultan versiones estables oficiales. Web ofrece novedades, posposición e instrucciones de actualización por plataforma. Companion verifica manifiesto, SHA-256, paquete, versión y firma antes de abrir el instalador Android; requiere tus permisos y confirmación. Conserva datos y no instala en silencio.
+
+Companion 1.0.0 no tiene ese código: instala manualmente la primera actualización con igual paquete y firma. Las compilaciones de pruebas con otro certificado necesitan un tratamiento compatible; no desinstales ni borres tu colección para forzar una APK oficial.
+
+Después de restaurar una colección en otra Web, genera una invitación nueva y revisa la recuperación en Companion 1.0.1. Antes de adoptar Web se guarda una copia recuperable y se intentan integrar los cambios offline compatibles. Los incompatibles quedan en esa copia, con un resumen explícito. El protocolo sigue siendo v1; esta negociación requiere Web 1.0.1.
