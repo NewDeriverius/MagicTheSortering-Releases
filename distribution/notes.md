@@ -1,25 +1,25 @@
-# Magic The Sortering 1.0.1
+﻿# Magic The Sortering 1.0.2
 
-Versión estable de Web y Companion Android. Protocolo de sincronización v1.
+Correcciones de Web y Companion Android. Protocolo de sincronización v1 y backups compatibles con 1.0.0/1.0.1.
 
-## Recuperación después de trasladar Web
+## Cartas, estadísticas y mazos
 
-La colección mantiene una identidad distinta de la instalación Web y de la época de sincronización. Restaurar un backup portable en otro servidor permite emparejar Companion con una invitación legítima y revisar la recuperación. Los backups 1.0.0 se reconocen mediante identificadores persistentes.
+- Companion permite abrir en el navegador la impresión y las reglas de Scryfall desde la ficha. Esta consulta necesita Internet; un error conserva los datos locales.
+- Las estadísticas de símbolos de maná utilizan el mismo criterio en Web y Android, incluyendo copias múltiples y cartas de varias caras.
+- El enfundado masivo encuentra las mismas copias elegibles que el individual. Las preferencias ordenan las candidatas y se admite una confirmación parcial explícita. La confirmación comprueba cambios de las copias y evita duplicados.
+- El catálogo actualizado conserva los datos de legalidad de Scryfall para validar mazos offline. Se distinguen legal, ilegal y no verificable; las infracciones confirmadas no ocultan las comprobaciones sin datos.
 
-Antes de adoptar Web, Companion solicita confirmación y guarda una copia recuperable. Intenta integrar los cambios offline compatibles, evita repetir los ya aplicados y conserva en esa copia los incompatibles. Web prevalece en los conflictos y el resultado indica qué ocurrió con cada conjunto de cambios. Los reintentos sobreviven a interrupciones sin duplicar operaciones.
+## Almacenaje Web
 
-## Actualizaciones
+- «Seleccionar página» y «Seleccionar todas» cuentan copias físicas y distinguen la página y todos los resultados filtrados, incluidos subalmacenes. La selección permanece al paginar; cambiar el filtro la reinicia explícitamente.
+- Los lotes de más de diez copias pueden asignarse juntos a una fila o celda con un clic. Es una propuesta editable que se confirma después, con alternativa individual y resumen de seleccionadas, asignadas y pendientes.
+- El selector muestra las hojas finales en el panel de distribución de su contenedor. La navegación habitual del almacén se conserva.
+- Paginación compartida arriba y abajo, con primera/anterior, número editable y siguiente/última. Se mantienen capacidad y políticas del almacén sin movimientos parciales silenciosos.
 
-Web muestra versiones instalada/disponible, novedades y posposición. La sección Actualizaciones explica cómo actualizar Windows, Linux y Docker conservando datos, configuración y certificados.
+## Actualizar conservando los datos
 
-Companion detecta versiones estables oficiales y permite descargar e iniciar su instalación nativa. Verifica SHA-256, paquete, versión y continuidad de firma. Android requiere autorización de instalaciones desde Companion y confirmación del instalador. La descarga puede cancelarse o reintentarse sin sustituir la aplicación.
+1. Conserva un backup antes de actualizar Web. Utiliza las mismas rutas de datos, configuración y certificados; Docker conserva su volumen.
+2. Instala la APK oficial sobre la anterior, con el mismo paquete y certificado. No desinstales ni borres almacenamiento para resolver una firma incompatible. Se mantienen los mecanismos de actualización introducidos en 1.0.1.
+3. Actualiza el catálogo en Web 1.0.2 y sincronízalo o impórtalo en Companion para obtener los datos de legalidad. Un catálogo anterior sigue funcionando, pero no puede verificar hechos que nunca guardó. Actualizar estos hechos no modifica mazos ni sus operaciones offline.
 
-## Pasar desde 1.0.0
-
-1. Exporta un backup antes de actualizar Web. En Windows ejecuta el Setup con las mismas rutas; en Linux/portable detén el servicio y conserva el directorio de datos. Docker conserva su volumen al reconstruir y recrear el contenedor.
-2. Companion 1.0.0 no incluye actualizador. Instala manualmente esta APK encima de la versión oficial anterior, con el mismo paquete y certificado. Las siguientes versiones podrán descubrirse desde Companion 1.0.1.
-3. Si has trasladado la colección, genera una nueva invitación desde Web 1.0.1 y revisa la recuperación en Companion. No borres datos ni desinstales para resolver un bloqueo de identidad.
-
-El flujo normal mantiene compatibilidad v1. La recuperación entre instalaciones requiere Web y Companion 1.0.1. Una APK firmada con una clave de pruebas distinta no puede actualizarse a la oficial conservando la instalación mediante un simple reemplazo; no desinstales para sortear el rechazo de firma.
-
-Descarga todos los paquetes y sus hashes desde esta misma release. Las revisiones exactas y el certificado público de firma figuran en distribution-manifest.json.
+Companion continúa consultando el almacén y editando composición de mazos offline; los movimientos físicos se administran en Web. Las versiones exactas, revisiones, certificado de firma y hashes de los paquetes constarán en el manifiesto de la distribución.

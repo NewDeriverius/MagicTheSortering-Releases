@@ -4,6 +4,8 @@ Repositorio público de paquetes de **Web** y **Companion Android**. No contiene
 
 Descarga una [release publicada](https://github.com/NewDeriverius/MagicTheSortering-Releases/releases) y consulta su manifiesto: el código de una rama de integración puede ser más reciente que los binarios públicos. El plan versionado en distribution/plan.json fija las revisiones de ambos productos. El coordinador publica el conjunto tras validar los dos; las releases antiguas conservan sus metadatos originales.
 
+La [preparación de 1.0.2](docs/preparation-v1.0.2.md) fija las candidatas y sus notas para revisión manual. La compilación conjunta y publicación quedan pendientes de la solicitud del usuario tras integrar las PR.
+
 ## Paquetes de una distribución conjunta
 
 - MagicTheSortering-Setup-WEBVERSION-win-x64.exe: instalador Windows x64, servicio y onboarding.
