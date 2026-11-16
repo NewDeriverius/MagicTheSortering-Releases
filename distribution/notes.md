@@ -1,25 +1,32 @@
-# Magic The Sortering 1.0.1
+# Magic The Sortering 1.0.3
 
-Versión estable de Web y Companion Android. Protocolo de sincronización v1.
+Actualización conjunta de Web y Companion Android. Mantiene el protocolo de sincronización v1 y la compatibilidad con las colecciones y backups existentes.
 
-## Recuperación después de trasladar Web
+## Legalidad de mazos
 
-La colección mantiene una identidad distinta de la instalación Web y de la época de sincronización. Restaurar un backup portable en otro servidor permite emparejar Companion con una invitación legítima y revisar la recuperación. Los backups 1.0.0 se reconocen mediante identificadores persistentes.
+- Companion puede completar desde Scryfall los datos de legalidad de las impresiones de sus mazos y conservarlos en el catálogo para consultar sin conexión. No modifica la composición de los mazos ni sus operaciones offline.
+- La actualización del catálogo incorpora estos datos y permite revalidar el mazo; se puede reintentar desde Mazos si la fuente no está disponible.
+- Web corrige el aplazamiento de importaciones de catálogos antiguos que todavía no contenían legalidades.
+- Los avisos agrupan las cartas pendientes de verificación en un bloque desplegable, separado de las infracciones confirmadas. No se considera ilegal una carta por falta de información.
+- Se corrige la aserción de las pruebas de preferencias de imagen que impedía completar el CI de SharedUI.
 
-Antes de adoptar Web, Companion solicita confirmación y guarda una copia recuperable. Intenta integrar los cambios offline compatibles, evita repetir los ya aplicados y conserva en esa copia los incompatibles. Web prevalece en los conflictos y el resultado indica qué ocurrió con cada conjunto de cambios. Los reintentos sobreviven a interrupciones sin duplicar operaciones.
+## Navegación de Almacenaje
 
-## Actualizaciones
+- Web y Companion comparten la resolución de ubicaciones y breadcrumbs.
+- Al abrir las cartas de una casilla, hoja o fila se conserva la ruta y se puede volver a su ubicación padre, sin depender de un historial previo del navegador.
+- Los accesos directos y ubicaciones que ya no existen mantienen una salida segura hacia Almacenaje.
 
-Web muestra versiones instalada/disponible, novedades y posposición. La sección Actualizaciones explica cómo actualizar Windows, Linux y Docker conservando datos, configuración y certificados.
+## Imagen de Inicio
 
-Companion detecta versiones estables oficiales y permite descargar e iniciar su instalación nativa. Verifica SHA-256, paquete, versión y continuidad de firma. Android requiere autorización de instalaciones desde Companion y confirmación del instalador. La descarga puede cancelarse o reintentarse sin sustituir la aplicación.
+- Configuración permite elegir una imagen PNG, JPEG o WebP y restaurar la imagen predeterminada.
+- La preferencia es local a cada navegador o dispositivo, igual que el tema; no se sincroniza con la colección.
+- Se valida el contenido, la decodificación, el tamaño máximo de 2 MB y las dimensiones (8192 píxeles por lado y 16 megapíxeles). Si la imagen guardada es inválida o no está disponible, se utiliza la predeterminada.
+- Companion utiliza el selector nativo de Android; la configuración y presentación se comparten con Web.
 
-## Pasar desde 1.0.0
+## Actualizar conservando los datos
 
-1. Exporta un backup antes de actualizar Web. En Windows ejecuta el Setup con las mismas rutas; en Linux/portable detén el servicio y conserva el directorio de datos. Docker conserva su volumen al reconstruir y recrear el contenedor.
-2. Companion 1.0.0 no incluye actualizador. Instala manualmente esta APK encima de la versión oficial anterior, con el mismo paquete y certificado. Las siguientes versiones podrán descubrirse desde Companion 1.0.1.
-3. Si has trasladado la colección, genera una nueva invitación desde Web 1.0.1 y revisa la recuperación en Companion. No borres datos ni desinstales para resolver un bloqueo de identidad.
+1. Guarda un backup antes de actualizar Web y conserva las mismas rutas de datos, configuración y certificados. Docker debe mantener su volumen.
+2. Instala la APK oficial 1.0.3 sobre la anterior. Conserva el identificador de paquete y la firma de distribución; el código Android pasa a 10003. No desinstales ni borres el almacenamiento para actualizar.
+3. Actualiza las legalidades desde Mazos o al importar/descargar el catálogo. La consulta inicial a Scryfall necesita conexión; los datos guardados se utilizan sin red. Los estados desconocidos se mantienen cuando la fuente no proporciona información.
 
-El flujo normal mantiene compatibilidad v1. La recuperación entre instalaciones requiere Web y Companion 1.0.1. Una APK firmada con una clave de pruebas distinta no puede actualizarse a la oficial conservando la instalación mediante un simple reemplazo; no desinstales para sortear el rechazo de firma.
-
-Descarga todos los paquetes y sus hashes desde esta misma release. Las revisiones exactas y el certificado público de firma figuran en distribution-manifest.json.
+La distribución incluye instalador y portable Windows x64, Linux x64/ARM64, APK Android firmada, manifiesto de procedencia y SHA-256. Las versiones y commits exactos constan en el manifiesto de esta release.
