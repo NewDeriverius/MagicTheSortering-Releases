@@ -1,0 +1,155 @@
+name: Publish coordinated distribution
+run-name: Publish ${{ inputs.version }} from ${{ inputs.plan_commit }}
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Distribution SemVer without v, matching the immutable plan
+        required: true
+        type: string
+      plan_commit:
+        description: Integrated full commit containing distribution/plan.json and release notes
+        required: true
+        type: string
+      web_run_id:
+        description: Optional successful Web build run to reuse after a failure
+        required: false
+        type: string
+      companion_run_id:
+        description: Optional successful Android build run to reuse after a failure
+        required: false
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: joint-public-distribution
+  cancel-in-progress: false
+jobs:
+  request:
+    if: github.repository == 'NewDeriverius/MagicTheSortering-Releases' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    timeout-minutes: 10
+    outputs:
+      web_run_id: ${{ steps.builds.outputs.web_run_id }}
+      companion_run_id: ${{ steps.builds.outputs.companion_run_id }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate immutable integrated plan
+        shell: pwsh
+        env:
+          PLAN_COMMIT: ${{ inputs.plan_commit }}
+          REQUEST_VERSION: ${{ inputs.version }}
+        run: |
+          ./scripts/Prepare-CoordinatedPlan.ps1 -PlanCommit $env:PLAN_COMMIT -Version $env:REQUEST_VERSION
+      - name: Request specialized private product builds
+        id: builds
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.DISTRIBUTION_BUILD_TOKEN }}
+          PLAN_COMMIT: ${{ inputs.plan_commit }}
+          WEB_RUN_ID: ${{ inputs.web_run_id }}
+          COMPANION_RUN_ID: ${{ inputs.companion_run_id }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:GH_TOKEN)) { throw 'Configure the restricted DISTRIBUTION_BUILD_TOKEN.' }
+          . ./scripts/Orchestration.ps1
+          $p=Read-DistributionPlan '.artifacts/plan/distribution/plan.json'
+          # Check both repositories, workflows and gitlinks before starting either build.
+          Assert-ProductBuildRequest web $p $env:WEB_RUN_ID
+          Assert-ProductBuildRequest companion $p $env:COMPANION_RUN_ID
+          foreach ($product in @('web','companion')) {
+            $reuse=if ($product -ceq 'web') { $env:WEB_RUN_ID } else { $env:COMPANION_RUN_ID }
+            $id=Start-ProductBuild $product $p $env:PLAN_COMMIT $reuse
+            "${product}_run_id=$id" >> $env:GITHUB_OUTPUT
+            "${product}: workflow run $id" >> $env:GITHUB_STEP_SUMMARY
+          }
+  collect:
+    needs: request
+    runs-on: windows-latest
+    timeout-minutes: 110
+    outputs:
+      artifact_id: ${{ steps.distribution.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Load immutable plan
+        shell: pwsh
+        env:
+          PLAN_COMMIT: ${{ inputs.plan_commit }}
+          REQUEST_VERSION: ${{ inputs.version }}
+        run: ./scripts/Prepare-CoordinatedPlan.ps1 -PlanCommit $env:PLAN_COMMIT -Version $env:REQUEST_VERSION
+      - name: Await and recover exact product artifacts
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.DISTRIBUTION_BUILD_TOKEN }}
+          PLAN_COMMIT: ${{ inputs.plan_commit }}
+          WEB_RUN_ID: ${{ needs.request.outputs.web_run_id }}
+          COMPANION_RUN_ID: ${{ needs.request.outputs.companion_run_id }}
+        run: |
+          . ./scripts/Orchestration.ps1
+          $p=Read-DistributionPlan '.artifacts/plan/distribution/plan.json'
+          foreach ($product in @('web','companion')) {
+            $id=if ($product -ceq 'web') { $env:WEB_RUN_ID } else { $env:COMPANION_RUN_ID }
+            Wait-ProductBuild $product $p $id
+            Receive-ProductArtifact $product $p $env:PLAN_COMMIT $id ".artifacts/$product"
+          }
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
+      - name: Verify official APK and aggregate complete public distribution
+        shell: pwsh
+        env:
+          PLAN_COMMIT: ${{ inputs.plan_commit }}
+        run: |
+          . ./scripts/Distribution.Common.ps1
+          $p=Read-DistributionPlan '.artifacts/plan/distribution/plan.json'
+          ./scripts/Verify-OfficialApk.ps1 -ApkPath ".artifacts/companion/MagicTheSortering-Companion-$($p.companion.version).apk" -PlanPath '.artifacts/plan/distribution/plan.json' -AndroidSdkDirectory $env:ANDROID_HOME
+          ./scripts/New-Distribution.ps1 -PlanPath '.artifacts/plan/distribution/plan.json' -PlanCommit $env:PLAN_COMMIT -WebPackagesPath '.artifacts/web' -AndroidPackagesPath '.artifacts/companion' -NotesPath '.artifacts/plan/distribution/notes.md' -OutputPath '.artifacts/joint-distribution'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        id: distribution
+        with:
+          name: joint-distribution-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .artifacts/joint-distribution/*
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+          include-hidden-files: true
+  publish:
+    needs: collect
+    runs-on: windows-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Load immutable plan
+        shell: pwsh
+        env:
+          PLAN_COMMIT: ${{ inputs.plan_commit }}
+          REQUEST_VERSION: ${{ inputs.version }}
+        run: ./scripts/Prepare-CoordinatedPlan.ps1 -PlanCommit $env:PLAN_COMMIT -Version $env:REQUEST_VERSION
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: ${{ needs.collect.outputs.artifact_id }}
+          merge-multiple: true
+          path: .artifacts/joint-distribution
+      - name: Publish complete verified immutable distribution
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PLAN_COMMIT: ${{ inputs.plan_commit }}
+        run: ./scripts/Publish-Distribution.ps1 -Publish -Path '.artifacts/joint-distribution' -PlanPath '.artifacts/plan/distribution/plan.json' -PlanCommit $env:PLAN_COMMIT
