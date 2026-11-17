@@ -4,9 +4,7 @@ Descargas oficiales de **Magic The Sortering Web** y **Companion Android** para 
 
 Elige una [release publicada](https://github.com/NewDeriverius/MagicTheSortering-Releases/releases) y consulta sus notas antes de instalar o actualizar. Descarga los paquetes y sus hashes desde la misma release.
 
-Consulta las [notas de versión de 1.0.3](distribution/notes.md). La disponibilidad de cada paquete se indica en la página de descargas de su release.
-
-La [preparación de 1.0.2](docs/preparation-v1.0.2.md) fija las candidatas y sus notas para revisión manual. La compilación conjunta y publicación quedan pendientes de la solicitud del usuario tras integrar las PR.
+Consulta las [notas de versión de 1.0.4](distribution/notes.md). La disponibilidad de cada paquete se indica en la página de descargas de su release.
 
 ## Paquetes de una distribución conjunta
 
