@@ -8,7 +8,6 @@ Actualización conjunta de Web y Companion Android. Mantiene el protocolo de sin
 - La actualización del catálogo incorpora estos datos y permite revalidar el mazo; se puede reintentar desde Mazos si la fuente no está disponible.
 - Web corrige el aplazamiento de importaciones de catálogos antiguos que todavía no contenían legalidades.
 - Los avisos agrupan las cartas pendientes de verificación en un bloque desplegable, separado de las infracciones confirmadas. No se considera ilegal una carta por falta de información.
-- Se corrige la aserción de las pruebas de preferencias de imagen que impedía completar el CI de SharedUI.
 
 ## Navegación de Almacenaje
 

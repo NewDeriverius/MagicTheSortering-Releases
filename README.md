@@ -1,10 +1,10 @@
 # Magic The Sortering — distribuciones
 
-Repositorio público de paquetes de **Web** y **Companion Android**. No contiene las fuentes de los repositorios privados ni claves de firma.
+Descargas oficiales de **Magic The Sortering Web** y **Companion Android** para gestionar tu colección, almacenaje y mazos.
 
-Descarga una [release publicada](https://github.com/NewDeriverius/MagicTheSortering-Releases/releases) y consulta su manifiesto: el código de una rama de integración puede ser más reciente que los binarios públicos. El plan versionado en distribution/plan.json fija las revisiones de ambos productos. El coordinador publica el conjunto tras validar los dos; las releases antiguas conservan sus metadatos originales.
+Elige una [release publicada](https://github.com/NewDeriverius/MagicTheSortering-Releases/releases) y consulta sus notas antes de instalar o actualizar. Descarga los paquetes y sus hashes desde la misma release.
 
-El plan actual prepara la distribución conjunta **1.0.3**; sus cambios y procedimiento figuran en [preparation-v1.0.3](docs/preparation-v1.0.3.md) y [notas de versión](distribution/notes.md). El plan no sustituye la comprobación de que los paquetes ya están publicados en Releases.
+Consulta las [notas de versión de 1.0.3](distribution/notes.md). La disponibilidad de cada paquete se indica en la página de descargas de su release.
 
 ## Paquetes de una distribución conjunta
 
@@ -16,7 +16,7 @@ El plan actual prepara la distribución conjunta **1.0.3**; sus cambios y proced
 - distribution-manifest.json: versiones independientes, commits exactos, revisión SharedUI, protocolo, huella pública de firma APK y hashes.
 - SHA256SUMS.txt y RELEASE-NOTES.md: integridad y notas públicas.
 
-WEBVERSION y ANDROIDVERSION **no tienen que ser iguales**. El tag vWEBVERSION identifica el conjunto por compatibilidad con el aviso de actualizaciones Web. En el flujo nuevo apunta al commit del plan de este repositorio, no al código de ninguna aplicación; los commits fuente figuran en el manifiesto.
+WEBVERSION y ANDROIDVERSION pueden ser diferentes. Consulta las versiones y la compatibilidad declaradas en el manifiesto de la descarga.
 
 ## Verificar antes de instalar
 
@@ -80,7 +80,7 @@ sudo -u magicthe-sortering env DOTNET_ENVIRONMENT=Production \
   /opt/magicthe-sortering/MagicTheSortering.Web --create-admin-invitation
 ~~~
 
-Docker se construye desde un checkout autorizado de Web con sus submódulos: pwsh -File scripts/Start-Lan.ps1 -Build. Conserva el volumen magic-the-sortering-data al recrear el servicio; docker compose down no lo elimina. Dentro de la instancia existente, usa docker compose exec app dotnet MagicTheSortering.Web.dll --create-admin-invitation. La distribución conjunta no publica una imagen Docker ni código fuente privado.
+Docker: si ya dispones de una instalación, conserva el volumen `magic-the-sortering-data` al recrear el contenedor. No uses `docker compose down -v` para actualizar. Genera la primera invitación en la instancia existente con `docker compose exec app dotnet MagicTheSortering.Web.dll --create-admin-invitation`. Estas descargas no incluyen una imagen Docker; utiliza las instrucciones que acompañan a tu instalación para actualizarla.
 
 ## Companion y datos
 
@@ -99,16 +99,6 @@ Antes de actualizar Web, exporta un .mtsbackup. Conserva además una copia prote
 La compatibilidad se declara por protocolo en el manifiesto: actualmente directo v1 (rango 1–1) y backup portable v1. No deduzcas compatibilidad de que las versiones visibles sean iguales. Las migraciones de Web pueden impedir volver a binarios anteriores sin restaurar una copia coherente.
 
 Si falla la conexión: revisa servicio, /health, IP, puertos, firewall, certificado y autorización del navegador. Si Android rechaza una actualización, comprueba firma y versionCode; no borres tus datos para forzarla. El catálogo puede superar 1 GB y las imágenes no cacheadas pueden faltar offline.
-
-## Mantenimiento y CI/CD
-
-[Plan inmutable](distribution/plan.json) · [Notas candidatas](distribution/notes.md) · [Formato del plan](distribution/plan.schema.json) · [Procedimiento coordinado](docs/ci-cd.md).
-
-El coordinador privado compila y valida ambos productos antes de agregar archivos. El dry-run guarda un artefacto privado de Actions y no escribe releases ni tags públicos. Solo un paso explícito de publicación autorizado puede convertir un draft completo y verificado en release pública. Los publicadores independientes se retiran para evitar carreras y sobrescrituras.
-
-La publicación 1.0.0 requiere fuentes integradas, CI correcto, firma persistente y verificación del conjunto completo antes de exponer la release. Las distribuciones anteriores permanecen inmutables.
-
-[Auditoría final de fase 8 y capturas](docs/phase-8-audit.md) · [Historial de fase 7](docs/phase-7-validation.md) · [Manifiesto de ejemplo sintético](examples/distribution-manifest.example.json). El ejemplo no representa binarios instalables ni una release publicada.
 
 ## Recuperación y avisos desde 1.0.1
 
