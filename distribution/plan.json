@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "distributionVersion": "1.0.2",
+  "distributionVersion": "1.0.3",
   "web": {
-    "version": "1.0.2",
-    "commit": "8598df6b1c350658441ac17e9f43fe889bfd9b31"
+    "version": "1.0.3",
+    "commit": "ff5dae8f9ad5d1e6e935d7af9f93001689b87b52"
   },
   "companion": {
-    "version": "1.0.2",
-    "commit": "e6845062691870ce3172a0b3d9a72444b9c287aa",
-    "androidVersionCode": 10002
+    "version": "1.0.3",
+    "commit": "08bb5fae450b98048914227f66a66593989f8538",
+    "androidVersionCode": 10003
   },
   "sharedUI": {
-    "commit": "68b4df44d5a775766e1afd9e30d84c7517c0a65e"
+    "commit": "8146fd7598436f536c3781a23fd22a0255e31e76"
   },
   "protocol": {
     "minimum": 1,
