@@ -6,6 +6,8 @@ Elige una [release publicada](https://github.com/NewDeriverius/MagicTheSortering
 
 Consulta las [notas de versión de 1.0.3](distribution/notes.md). La disponibilidad de cada paquete se indica en la página de descargas de su release.
 
+La [preparación de 1.0.2](docs/preparation-v1.0.2.md) fija las candidatas y sus notas para revisión manual. La compilación conjunta y publicación quedan pendientes de la solicitud del usuario tras integrar las PR.
+
 ## Paquetes de una distribución conjunta
 
 - MagicTheSortering-Setup-WEBVERSION-win-x64.exe: instalador Windows x64, servicio y onboarding.
